@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+}
+
+group 'lucas.barabas'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+def restAssuredVersion= '4.4.0'
+def jupiterVersion= '5.7.0'
+def slf4jVersion= '1.7.30'
+def jacksonVersion= '2.11.1'
+def wireMockVersion= '2.19.0'
+def allureVersion = '2.17.2'
+
+dependencies {
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: slf4jVersion
+    implementation group: 'io.rest-assured', name: 'rest-assured', version: restAssuredVersion
+    implementation group: 'io.rest-assured', name: 'json-path', version: restAssuredVersion
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
+    implementation group: 'com.github.tomakehurst', name: 'wiremock', version: wireMockVersion
+    implementation group: 'io.qameta.allure', name: 'allure-junit5', version: allureVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jupiterVersion
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jupiterVersion
+
+    implementation 'io.cucumber:cucumber-java:7.11.1'
+    testImplementation 'io.cucumber:cucumber-junit:7.11.1'
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'org.slf4j:slf4j-simple:2.0.6'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty "cucumber.junit-platform.naming-strategy", "long"
+    systemProperty "configuracion", "settings.yml#qa"
+    include "test/java/tests/TestsBDD.class"
+}
+
+task runTestsBDD(type: Test) {
+    useJUnit()
+    systemProperty "cucumber.filter.tags", "@test"
+}
+
+
+
+

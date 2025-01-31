@@ -1,0 +1,11 @@
+default:
+  proyectos:
+    - proyecto: RICKANDMORTY
+      servicios:
+        - servicio: MortySmith
+          path: /character/2
+
+qa:
+  proyectos:
+    - proyecto: RICKANDMORTY
+      url: 'https://rickandmortyapi.com/api'

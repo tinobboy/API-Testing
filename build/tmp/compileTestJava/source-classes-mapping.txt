@@ -1,0 +1,21 @@
+framework/ObjectMapperHelperTest.java
+ framework.ObjectMapperHelperTest
+framework/PandoraRequestTest.java
+ framework.PandoraRequestTest
+test/java/tests/TestsBDD.java
+ test.java.tests.TestsBDD
+steps/BaseSteps.java
+ steps.BaseSteps
+ steps.BaseSteps$1
+framework/JsonHelperTest.java
+ framework.JsonHelperTest
+steps/APISteps/RickAndMortySteps.java
+ steps.APISteps.RickAndMortySteps
+framework/PandoraSoapResponseTest.java
+ framework.PandoraSoapResponseTest
+framework/PandoraResponseTest.java
+ framework.PandoraResponseTest
+framework/PandoraSoapRequestTest.java
+ framework.PandoraSoapRequestTest
+framework/RequestTest.java
+ framework.RequestTest

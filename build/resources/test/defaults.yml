@@ -1,0 +1,5 @@
+default:
+  dirInputFiles: samples
+  proyectos:
+    - proyecto: RICKANDMORTY
+
