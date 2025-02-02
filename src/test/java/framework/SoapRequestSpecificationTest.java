@@ -2,8 +2,8 @@ package framework;
 
 
 import constants.RequestMethods;
-import core.PandoraSoapRequest;
-import core.PandoraSoapResponse;
+import core.SoapRequestSpecification;
+import core.SoapResponseSpecification;
 
 import helpers.NodeHelper;
 import org.junit.jupiter.api.Assertions;
@@ -15,13 +15,13 @@ import steps.RequestSteps;
 import java.util.List;
 
 
-public class PandoraSoapRequestTest {
-    PandoraSoapRequest pandoraSoapRequest;
+public class SoapRequestSpecificationTest {
+    SoapRequestSpecification soapRequestSpecification;
     NodeHelper nodeHelper;
     Node node;
     String path = "calculator.asmx";
 
-    public PandoraSoapRequestTest() {
+    public SoapRequestSpecificationTest() {
         nodeHelper = new NodeHelper();
     }
 
@@ -33,15 +33,15 @@ public class PandoraSoapRequestTest {
         String url = "http://www.dneonline.com";
         node = nodeHelper.getNodeFromFile(filePath);
 
-        pandoraSoapRequest = new PandoraSoapRequest(RequestMethods.POST, path,"SOAP request");
-        pandoraSoapRequest.setUrl(url);
-        pandoraSoapRequest.addHeader("Content-Type", "text/xml");
-        pandoraSoapRequest.setBody(node);
-        PandoraSoapResponse pandoraSoapResponse = step.executeRequest(pandoraSoapRequest);
-        Integer actualCode = pandoraSoapResponse.getStatusCode();
+        soapRequestSpecification = new SoapRequestSpecification(RequestMethods.POST, path,"SOAP request");
+        soapRequestSpecification.setUrl(url);
+        soapRequestSpecification.addHeader("Content-Type", "text/xml");
+        soapRequestSpecification.setBody(node);
+        SoapResponseSpecification soapResponseSpecification = step.executeRequest(soapRequestSpecification);
+        Integer actualCode = soapResponseSpecification.getStatusCode();
 
         Assertions.assertEquals(200, actualCode, "Status code is not as expected");
-        String addResult = pandoraSoapResponse.getValueFromBody("AddResult");
+        String addResult = soapResponseSpecification.getValueFromBody("AddResult");
         Assertions.assertEquals("5", addResult, "Incorrect result");
     }
     @Test
@@ -51,10 +51,10 @@ public class PandoraSoapRequestTest {
         String newValue = "8";
         node = nodeHelper.getNodeFromFile(filePath);
 
-        pandoraSoapRequest = new PandoraSoapRequest(RequestMethods.POST, path,"Test SOAP Request");
-        pandoraSoapRequest.setBody(node);
-        pandoraSoapRequest.setBody("intA", newValue);
-        String intA = pandoraSoapRequest.getValueFromBody("intA");
+        soapRequestSpecification = new SoapRequestSpecification(RequestMethods.POST, path,"Test SOAP Request");
+        soapRequestSpecification.setBody(node);
+        soapRequestSpecification.setBody("intA", newValue);
+        String intA = soapRequestSpecification.getValueFromBody("intA");
 
         Assertions.assertEquals(newValue, intA, "Values aren't equals");
     }
@@ -63,9 +63,9 @@ public class PandoraSoapRequestTest {
     public void getArrayValues(){
         String filePath = "src/test/resources/xmldata/test/calculatorArray.xml";
         node = nodeHelper.getNodeFromFile(filePath);
-        pandoraSoapRequest = new PandoraSoapRequest(RequestMethods.POST, path,"Test SOAP Request");
-        pandoraSoapRequest.setBody(node);
-        List<String> listaNodos = pandoraSoapRequest.getListValuesFromBody("intA");
+        soapRequestSpecification = new SoapRequestSpecification(RequestMethods.POST, path,"Test SOAP Request");
+        soapRequestSpecification.setBody(node);
+        List<String> listaNodos = soapRequestSpecification.getListValuesFromBody("intA");
 
         Assertions.assertEquals("3", listaNodos.get(0),"Values aren't equals");
         Assertions.assertEquals("5", listaNodos.get(1),"Values aren't equals");

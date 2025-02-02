@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class PandoraSoapRequest {
+public class SoapRequestSpecification {
 
     private String name;
     private HashMap<String, String> headers;
@@ -30,7 +30,7 @@ public class PandoraSoapRequest {
      * <hr>
      * @see RequestMethods
      */
-    public PandoraSoapRequest(RequestMethods method, String paths, String name){
+    public SoapRequestSpecification(RequestMethods method, String paths, String name){
         this.name = name;
         this.method = method;
         this.nodeHelper = new NodeHelper();

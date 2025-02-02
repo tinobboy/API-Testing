@@ -11,7 +11,7 @@ import static helpers.JsonNodeHelper.*;
 import static org.apache.commons.lang3.StringUtils.*;
 import static java.lang.String.*;
 
-public class PandoraRequest {
+public class RequestSpecification {
 
     private HashMap<String, String> headers;
     private HashMap<String, List<String>> parameters;
@@ -22,7 +22,7 @@ public class PandoraRequest {
     private JsonNode body;
 
 
-    public PandoraRequest(String url, RequestMethods method) {
+    public RequestSpecification(String url, RequestMethods method) {
         setBaseUri(url);
         setMethod(method);
     }
@@ -76,7 +76,7 @@ public class PandoraRequest {
         this.parameters.put(parameterName, parameterValues);
     }
 
-    public PandoraRequest setParameters(String parameterName, String parameterValue) {
+    public RequestSpecification setParameters(String parameterName, String parameterValue) {
         setParameters(parameterName, List.of(parameterValue));
         return this;
     }
@@ -148,7 +148,7 @@ public class PandoraRequest {
         return getStringValueFromJson(node,this.body);
     }
 
-    public PandoraRequest setBody(String nodeName,Object nodeValue){
+    public RequestSpecification setBody(String nodeName, Object nodeValue){
         this.body = isBodyNull() ?
                 setNodeInJson(nodeName,nodeValue)
                 : setNodeInJson(nodeName,nodeValue,this.body);

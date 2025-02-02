@@ -4,8 +4,8 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import constants.RequestContentType;
 import constants.RequestHeaders;
 import constants.RequestMethods;
-import core.PandoraRequest;
-import core.PandoraResponse;
+import core.RequestSpecification;
+import core.ResponseSpecification;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import steps.RequestSteps;
@@ -32,13 +32,13 @@ public class RequestTest {
                         .withStatus(200)
                         .withBodyFile("/json/superheros.json")));
 
-        PandoraRequest pandoraRequest = new PandoraRequest("http://localhost", RequestMethods.GET);
-        pandoraRequest.setPaths("/superheros");
-        pandoraRequest.setHeaders(RequestHeaders.CONTENT_TYPE,RequestContentType.JSON.getDescription());
+        RequestSpecification requestSpecification = new RequestSpecification("http://localhost", RequestMethods.GET);
+        requestSpecification.setPaths("/superheros");
+        requestSpecification.setHeaders(RequestHeaders.CONTENT_TYPE,RequestContentType.JSON.getDescription());
 
-        PandoraResponse pandoraResponse = new RequestSteps().executeRequest(pandoraRequest);
+        ResponseSpecification responseSpecification = new RequestSteps().executeRequest(requestSpecification);
 
-        assertEquals(200,pandoraResponse.getStatusCode());
+        assertEquals(200, responseSpecification.getStatusCode());
 
     }
 
@@ -53,15 +53,15 @@ public class RequestTest {
                         .withStatus(200)
                         .withBodyFile("/json/batman.json")));
 
-        PandoraRequest pandoraRequest = new PandoraRequest("http://localhost", RequestMethods.GET);
-        pandoraRequest.setPaths("/superheros/search");
-        pandoraRequest.setHeaders(RequestHeaders.CONTENT_TYPE, RequestContentType.JSON.getDescription());
-        pandoraRequest.setParameters("publisher","Marvel");
-        pandoraRequest.setParameters("id","1");
+        RequestSpecification requestSpecification = new RequestSpecification("http://localhost", RequestMethods.GET);
+        requestSpecification.setPaths("/superheros/search");
+        requestSpecification.setHeaders(RequestHeaders.CONTENT_TYPE, RequestContentType.JSON.getDescription());
+        requestSpecification.setParameters("publisher","Marvel");
+        requestSpecification.setParameters("id","1");
 
-        PandoraResponse pandoraResponse = new RequestSteps().executeRequest(pandoraRequest);
+        ResponseSpecification responseSpecification = new RequestSteps().executeRequest(requestSpecification);
 
-        assertEquals(200,pandoraResponse.getStatusCode());
+        assertEquals(200, responseSpecification.getStatusCode());
     }
 
     @Test
@@ -75,18 +75,18 @@ public class RequestTest {
                         .withStatus(200)
                         .withBodyFile("/json/post_ok.json")));
 
-        PandoraRequest pandoraRequest = new PandoraRequest("http://localhost", RequestMethods.POST);
-        pandoraRequest.setPaths("/superheros/add");
-        pandoraRequest.setHeaders(RequestHeaders.CONTENT_TYPE,RequestContentType.JSON.getDescription());
-        pandoraRequest.setBody("superhero","Dr. Strange");
-        pandoraRequest.setBody("publisher","Marvel Comics");
-        pandoraRequest.setBody("alter_ego","Stephen Strange");
-        pandoraRequest.setBody("first_appeareance","Strange Tales #110");
-        pandoraRequest.setBody("characters","Stephen Strange");
+        RequestSpecification requestSpecification = new RequestSpecification("http://localhost", RequestMethods.POST);
+        requestSpecification.setPaths("/superheros/add");
+        requestSpecification.setHeaders(RequestHeaders.CONTENT_TYPE,RequestContentType.JSON.getDescription());
+        requestSpecification.setBody("superhero","Dr. Strange");
+        requestSpecification.setBody("publisher","Marvel Comics");
+        requestSpecification.setBody("alter_ego","Stephen Strange");
+        requestSpecification.setBody("first_appeareance","Strange Tales #110");
+        requestSpecification.setBody("characters","Stephen Strange");
 
-        PandoraResponse pandoraResponse = new RequestSteps().executeRequest(pandoraRequest);
+        ResponseSpecification responseSpecification = new RequestSteps().executeRequest(requestSpecification);
 
-        assertEquals(200,pandoraResponse.getStatusCode());
+        assertEquals(200, responseSpecification.getStatusCode());
     }
 
     @AfterAll

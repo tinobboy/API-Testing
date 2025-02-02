@@ -14,7 +14,7 @@ import java.util.Map;
 import static helpers.JsonNodeHelper.getStringValueFromJson;
 import static helpers.ObjectMapperHelper.*;
 
-public class PandoraResponse {
+public class ResponseSpecification {
 
     private int statusCode;
     private long time;
@@ -23,7 +23,7 @@ public class PandoraResponse {
     private HashMap<String,String> headers;
     private String stringBody;
 
-    public PandoraResponse(Response response) {
+    public ResponseSpecification(Response response) {
         setStatusCode(response.statusCode());
         setCookies(response.getCookies());
         setTime(response.getTime());

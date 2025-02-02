@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class PandoraSoapResponse {
+public class SoapResponseSpecification {
 
     private String name;
     private HashMap<String, String> headers;
@@ -19,7 +19,7 @@ public class PandoraSoapResponse {
     private NodeHelper nodeHelper;
     private Response response;
 
-    public PandoraSoapResponse(Response response)  {
+    public SoapResponseSpecification(Response response)  {
         this.response = response;
         this.nodeHelper = new NodeHelper();
         setHeaders();

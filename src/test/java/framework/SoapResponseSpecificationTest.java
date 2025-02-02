@@ -1,8 +1,8 @@
 package framework;
 
 import constants.RequestMethods;
-import core.PandoraSoapRequest;
-import core.PandoraSoapResponse;
+import core.SoapRequestSpecification;
+import core.SoapResponseSpecification;
 import helpers.NodeHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -11,16 +11,16 @@ import org.w3c.dom.Node;
 import steps.RequestSteps;
 
 
-public class PandoraSoapResponseTest {
-    PandoraSoapResponse pandoraSoapResponse;
+public class SoapResponseSpecificationTest {
+    SoapResponseSpecification soapResponseSpecification;
 
-    public PandoraSoapResponseTest() { }
+    public SoapResponseSpecificationTest() { }
 
     @Test
     @DisplayName("Get value from response")
     public void getValue(){
         ejecutarRequest();
-        String addResult = pandoraSoapResponse.getValueFromBody("AddResult");
+        String addResult = soapResponseSpecification.getValueFromBody("AddResult");
         Assertions.assertEquals("5", addResult, "Result is wrong");
     }
 
@@ -28,7 +28,7 @@ public class PandoraSoapResponseTest {
     @DisplayName("Get StatusCode")
     public void getStatusCode(){
         ejecutarRequest();
-        int statusCode = pandoraSoapResponse.getStatusCode();
+        int statusCode = soapResponseSpecification.getStatusCode();
         Assertions.assertEquals(200, statusCode, "StatusCode is wrong");
     }
 
@@ -39,10 +39,10 @@ public class PandoraSoapResponseTest {
         String url = "http://www.dneonline.com";
         String path = "calculator.asmx";
 
-        PandoraSoapRequest pandoraSoapRequest = new PandoraSoapRequest(RequestMethods.POST, path,"SOAP request");
-        pandoraSoapRequest.setUrl(url);
-        pandoraSoapRequest.addHeader("Content-Type", "text/xml");
-        pandoraSoapRequest.setBody(node);
-        this.pandoraSoapResponse = step.executeRequest(pandoraSoapRequest);
+        SoapRequestSpecification soapRequestSpecification = new SoapRequestSpecification(RequestMethods.POST, path,"SOAP request");
+        soapRequestSpecification.setUrl(url);
+        soapRequestSpecification.addHeader("Content-Type", "text/xml");
+        soapRequestSpecification.setBody(node);
+        this.soapResponseSpecification = step.executeRequest(soapRequestSpecification);
     }
 }

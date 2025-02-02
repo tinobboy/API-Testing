@@ -1,10 +1,10 @@
 package steps;
 
 import constants.RequestMethods;
-import core.PandoraRequest;
-import core.PandoraResponse;
-import core.PandoraSoapRequest;
-import core.PandoraSoapResponse;
+import core.RequestSpecification;
+import core.ResponseSpecification;
+import core.SoapRequestSpecification;
+import core.SoapResponseSpecification;
 import helpers.AllureHelper;
 import helpers.LoggerHelper;
 import io.qameta.allure.Step;
@@ -13,7 +13,6 @@ import io.restassured.config.HttpClientConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,22 +32,22 @@ public class RequestSteps {
     private static LoggerHelper logger = new LoggerHelper(RequestSteps.class);
 
     @Step("Execute request")
-    public PandoraResponse executeRequest(PandoraRequest pandoraRequest) {
-        RequestSpecification requestSpecification = generateRequest(pandoraRequest);
+    public ResponseSpecification executeRequest(RequestSpecification pandoraRequest) {
+        io.restassured.specification.RequestSpecification requestSpecification = generateRequest(pandoraRequest);
         attachRequestFile(pandoraRequest);
         Response response = sendRequest(pandoraRequest.getMethod(), requestSpecification);
         attachResponseFile(response);
-        return new PandoraResponse(response);
+        return new ResponseSpecification(response);
     }
 
     @Step("Generar Request")
-    protected RequestSpecification generateRequest(PandoraRequest pandoraRequest) {
+    protected io.restassured.specification.RequestSpecification generateRequest(RequestSpecification pandoraRequest) {
 
         RestAssuredConfig restAssuredConfig =  RestAssured
                 .config()
                 .httpClient(HttpClientConfig.httpClientConfig());
 
-        RequestSpecification requestSpecification =
+        io.restassured.specification.RequestSpecification requestSpecification =
                  given()
                 .config(restAssuredConfig)
                 .log().all()
@@ -76,22 +75,22 @@ public class RequestSteps {
     }
 
     @Step("Execute Request SOAP")
-    public PandoraSoapResponse executeRequest(PandoraSoapRequest pandoraSoapRequest) {
-        RequestSpecification requestSpecification = this.generateRequest(pandoraSoapRequest);
-        AllureHelper.attachRequestFile(pandoraSoapRequest);
-        Response response = this.sendRequest(pandoraSoapRequest.getMethod(), requestSpecification);
+    public SoapResponseSpecification executeRequest(SoapRequestSpecification soapRequestSpecification) {
+        io.restassured.specification.RequestSpecification requestSpecification = this.generateRequest(soapRequestSpecification);
+        AllureHelper.attachRequestFile(soapRequestSpecification);
+        Response response = this.sendRequest(soapRequestSpecification.getMethod(), requestSpecification);
         AllureHelper.attachResponseFile(response);
-        return new PandoraSoapResponse(response);
+        return new SoapResponseSpecification(response);
     }
 
     @Step("Generar Request SOAP")
-    protected RequestSpecification generateRequest(PandoraSoapRequest request) {
+    protected io.restassured.specification.RequestSpecification generateRequest(SoapRequestSpecification request) {
 
         RestAssuredConfig restAssuredConfig =  RestAssured.config().httpClient(HttpClientConfig.httpClientConfig()
                 .setParam("http.socket.timeout",150000)
                 .setParam("http.connection.timeout",150000));
 
-        RequestSpecification requestSpecification = given()
+        io.restassured.specification.RequestSpecification requestSpecification = given()
                 .config(restAssuredConfig)
                 .log().all()
                 .relaxedHTTPSValidation("TLSv1.2")
@@ -112,7 +111,7 @@ public class RequestSteps {
     }
 
     @Step("Send Request")
-    protected Response sendRequest(RequestMethods method, RequestSpecification requestSpecification) {
+    protected Response sendRequest(RequestMethods method, io.restassured.specification.RequestSpecification requestSpecification) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         printInfoMessage(formatText("Sending request at %s",dateFormat.format(new Date())));
         Response response = requestSpecification.when().urlEncodingEnabled(false).request(method.getType());
